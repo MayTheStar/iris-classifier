@@ -1,0 +1,39 @@
+name: Train Iris Model
+
+# Trigger: عند push أو مجدول
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '21 21 * * 0'  # كل يوم الأحد الساعة 00:00 UTC
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run training script
+      run: |
+        python train.py
+
+    - name: Commit updated model
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add app/models/iris_pipeline.joblib
+        git commit -m "Update trained model [skip ci]" || echo "No changes to commit"
+        git push
