@@ -8,7 +8,7 @@ model = joblib.load("../iris_pipeline.joblib")  # تأكدي من المسار �
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json  # نتوقع JSON مثل: {"features": [5.1, 3.5, 1.4, 0.2]}
+    data = request.json  # نتوقع JSON مثل: {"features": [5., 3.5, 1.4, 0.2]}
     features = np.array(data['features']).reshape(1, -1)
     pred = model.predict(features)[0]
     probs = model.predict_proba(features).tolist()[0]
