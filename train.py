@@ -26,6 +26,7 @@ pipeline = Pipeline([
     ('clf', RandomForestClassifier(random_state=42))
 ])
 
+
 # 4. بحث عن أفضل معلمات 
 param_grid = {
     'clf__n_estimators': [50, 100],
@@ -44,5 +45,5 @@ print("Test Accuracy:", accuracy_score(y_test, y_pred))
 print(classification_report(y_test, y_pred))
 
 # 6. حفظ النموذج 
-joblib.dump(best_model, "iris_pipeline.joblib")
+joblib.dump(best_model, "App/models/iris_pipeline.joblib")
 print("Saved model to iris_pipeline.joblib")
